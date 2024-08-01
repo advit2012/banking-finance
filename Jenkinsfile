@@ -4,6 +4,7 @@ pipeline {
         stage('Git Clone') {
             steps {
                 git url: 'https://github.com/advit2012/star-agile-banking-finance.git/', branch: 'master'
+                sh 'mvn clean install'
             }
         }
         stage('Build Docker Image') {
