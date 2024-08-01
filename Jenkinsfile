@@ -34,11 +34,11 @@ pipeline {
                     
                     sshagent(['sshkeypair']) {
                         // Remove existing container if exists
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.42.229 ${dockerrm}"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.255 ${dockerrm}"
                         // Pull the latest Docker image
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.42.229 ${dockerPull}"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.255 ${dockerPull}"
                         // Run the new container
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.42.229 ${dockerCmd}"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.255 ${dockerCmd}"
                     }
                 }
             }
