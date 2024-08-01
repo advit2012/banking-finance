@@ -30,7 +30,7 @@ pipeline {
                 script {
                     def dockerrm = 'sudo docker rm -f My-first-containe2211 || true'
                     def dockerPull = "sudo docker pull ${env.IMAGE_NAME}"  // Use the correct image tag
-                    def dockerCmd = "sudo docker run -itd --name My-first-containe2211 -p 8084:8091 ${env.IMAGE_NAME}"
+                    def dockerCmd = "sudo docker run -itd --name My-first-containe2211 -p 8084:8081 ${env.IMAGE_NAME}"
                     
                     sshagent(['sshkeypair']) {
                         // Remove existing container if exists
