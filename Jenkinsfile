@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Git Clone') {
             steps {
-                git url: 'https://github.com/advit2012/star-agile-banking-finance.git/', branch: 'master'
+                git url: 'https://github.com/advit2012/banking-finance.git', branch: 'master'
                 sh 'mvn clean install'
             }
         }
