@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     // Define the image name with a unique tag
-                    env.IMAGE_NAME = "advit2012/akshatnewimg1july:v2"
+                    env.IMAGE_NAME = "advit2012/banking:v2"
                     sh "docker build -t ${env.IMAGE_NAME} ."
                     sh 'docker images'
                 }
@@ -34,11 +34,11 @@ pipeline {
                     
                     sshagent(['sshkeypair']) {
                         // Remove existing container if exists
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.255 ${dockerrm}"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.15.120 ${dockerrm}"
                         // Pull the latest Docker image
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.255 ${dockerPull}"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.15.120 ${dockerPull}"
                         // Run the new container
-                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.255 ${dockerCmd}"
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.15.120 ${dockerCmd}"
                     }
                 }
             }
