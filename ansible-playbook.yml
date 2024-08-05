@@ -12,4 +12,5 @@
   - name : Start Docker Service
     command : sudo systemctl start docker
 
-  
+  - name: Deploy Docker Container
+    command: docker run -itd -p 8084:8081 advit2012/banking6aug:1.0
