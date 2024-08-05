@@ -1,7 +1,7 @@
 - name: Configure Docker on EC2 Instances
   hosts: all
   become: true
-  tasks: 
+  tasks:
     - name: Updating apt
       command: sudo apt-get update
 
