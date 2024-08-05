@@ -1,24 +1,27 @@
-- name : Configure Docker on EC2 Instances
-  hosts : all
+- name: Configure Docker on EC2 Instances
+  hosts: all
   become: true
-  connection : ssh
-  tasks : 
-  - name: updating apt
-    command : sudo apt-get update
+  connection: ssh
+  tasks: 
+    - name: Updating apt
+      command: sudo apt-get update
 
-  - name : Install Docker
-    command : sudo apt-get install -y docker.io
-    become : yes
-    become_user : root
+    - name: Install Docker
+      command: sudo apt-get install -y docker.io
+      become: yes
+      become_user: root
 
-  - name : Start Docker Service
-    command : sudo systemctl start docker
-    become : yes
-    become_user : root
-  - name :Stop existing containers
-    shell: "docker stop $(docker ps -q) || true"
-    ignore_errors: yes
-  - name : delete all containers
-    shell: docker rm $(docker ps -a -q)
-  - name: Deploy Docker Container
-    command: docker run -itd -p 8084:8081 advit2012/banking6aug:1.0
+    - name: Start Docker Service
+      command: sudo systemctl start docker
+      become: yes
+      become_user: root
+
+    - name: Stop existing containers
+      shell: "docker stop $(docker ps -q) || true"
+      ignore_errors: yes
+
+    - name: Delete all containers
+      shell: "docker rm $(docker ps -a -q)"
+
+    - name: Deploy Docker Container
+      command: "docker run -itd -p 8084:8081 advit2012/banking6aug:1.0"
