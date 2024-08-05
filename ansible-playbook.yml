@@ -1,7 +1,6 @@
 - name: Configure Docker on EC2 Instances
   hosts: all
   become: true
-  connection: ssh
   tasks: 
     - name: Updating apt
       command: sudo apt-get update
@@ -21,7 +20,15 @@
       ignore_errors: yes
 
     - name: Delete all containers
-      shell: "docker rm $(docker ps -a -q)"
+      shell: "docker rm $(docker ps -a -q) || true"
+
+    - name: Pull Docker image
+      command: "docker pull advit2012/banking6aug:1.0"
+      register: pull_result
+
+    - name: Remove old image if pull was successful
+      shell: "docker rmi $(docker images -q advit2012/banking6aug:1.0 | tail -n +2)"
+      when: pull_result.changed
 
     - name: Deploy Docker Container
-      command: "docker run -itd -p 8084:8081 advit2012/banking6aug:1.0"
+      shell: "docker run -itd -p 8084:8081 advit2012/banking6aug:1.0"
