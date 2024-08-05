@@ -1,0 +1,51 @@
+pipeline{
+    agent any
+    stages{
+        stage('checkout the code from github'){
+            steps{
+                 git url: 'https://github.com/advit2012/banking-finance/'
+                 echo 'github url checkout'
+            }
+        }
+        stage('codecompile with manjeet'){
+            steps{
+                echo 'starting compiling'
+                sh 'mvn compile'
+            }
+        }
+        stage('codetesting with manjeet'){
+            steps{
+                sh 'mvn test'
+            }
+        }
+        stage('qa with manjeet'){
+            steps{
+                sh 'mvn checkstyle:checkstyle'
+            }
+        }
+        stage('package with manjeet'){
+            steps{
+                sh 'mvn package'
+            }
+        }
+        stage('run dockerfile'){
+          steps{
+               sh 'docker build -t advit2012/banking6aug:1.0 .'
+           }
+         }
+        stage('login to docker hub and push file'){
+            steps{
+               withCredentials([string(credentialsId: 'dockerhubpass', variable: 'dockerhubpass')]) {
+                        sh 'docker login -u advit2012 -p ${dockerhubpass}'
+                        sh 'docker push advit2012/banking6aug:1.0 '
+                    }
+                }  
+            }
+        stage('deployment using ansible'){
+          steps{
+               ansiblePlaybook become: true, credentialsId: 'ansible', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'ansible-playbook.yml', sudoUser: null, vaultTmpPath: ''
+           }
+                     
+        }   
+    }
+}
